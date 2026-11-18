@@ -1,0 +1,11 @@
+# Chạy ở localhost/Expense-Management-Website/ : chuyển mọi request vào thư mục public/
+# Trên hosting nên trỏ document root thẳng vào public/ (khi đó file này không dùng tới).
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteRule ^(.*)$ public/$1 [L]
+</IfModule>
+
+# Chặn truy cập trực tiếp vào code và cấu hình nếu mod_rewrite tắt
+<IfModule !mod_rewrite.c>
+    Require all denied
+</IfModule>

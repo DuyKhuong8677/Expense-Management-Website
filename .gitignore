@@ -1,0 +1,12 @@
+# Cấu hình riêng từng máy (chứa mật khẩu CSDL)
+config/config.php
+
+# Log
+storage/logs/*
+!storage/logs/.gitkeep
+
+# IDE / hệ điều hành
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

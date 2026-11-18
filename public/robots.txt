@@ -1,0 +1,12 @@
+# TODO TV6: thay ten-mien bằng tên miền thật khi deploy
+User-agent: *
+Allow: /
+Disallow: /tong-quan
+Disallow: /giao-dich
+Disallow: /vi
+Disallow: /danh-muc
+Disallow: /ngan-sach
+Disallow: /bao-cao
+Disallow: /tai-khoan
+Disallow: /admin
+Sitemap: https://ten-mien/sitemap.xml

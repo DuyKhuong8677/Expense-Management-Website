@@ -1,0 +1,53 @@
+/*
+ * Biến thiết kế dùng chung cho cả nhóm (tài liệu Quy tắc thiết kế, mục E.2).
+ * KHÔNG tự đặt màu, cỡ chữ, bo góc, khoảng cách riêng — luôn dùng var(--...).
+ * Cần thêm biến mới thì báo TV6 để thêm vào đây.
+ */
+:root {
+    /* Typography: một font Inter (TY-02), thang 16–20–24–32–48 (TY-04) */
+    --font: "Inter", "Roboto", Arial, sans-serif;
+    --fs-body: 16px;
+    --fs-h3: 20px;
+    --fs-h2: 24px;
+    --fs-h1: 32px;
+    --fs-display: 48px;
+
+    /* Colors: xanh lá đậm + xám (CL-01, CL-03), đã kiểm tra tương phản ≥ 4.5:1 (CL-11) */
+    --c-primary: #2F6F5E;
+    --c-primary-hover: #275D4F;
+    --c-primary-tint: #E8F3EF;
+    --c-primary-shade: #1F3D36;
+    --c-text: #1F2A27;          /* không dùng đen tuyền (CL-10) */
+    --c-text-muted: #5F676A;
+    --c-bg: #F1F3F4;
+    --c-surface: #FFFFFF;
+    --c-line: #DDE2E1;
+    --c-income: #2F6F5E;        /* thu: xanh + dấu "+" */
+    --c-expense: #C2363B;       /* chi: đỏ + dấu "−" (chữ thường) */
+    --c-expense-chart: #E5484D; /* đỏ sáng: chỉ cho biểu đồ và chữ ≥ 18px */
+    --c-expense-tint: #FDECEC;
+    --c-warning: #8A5A00;
+    --c-warning-tint: #FFF4D6;
+    --c-link: #1D5FA8;
+
+    /* Radius, shadow */
+    --r-md: 8px;
+    --r-lg: 12px;
+    --sh-sm: 0 2px 4px rgba(31, 61, 54, .10);
+    --sh-md: 0 6px 12px rgba(31, 61, 54, .12);
+    --sh-lg: 0 24px 48px rgba(31, 61, 54, .20);
+    --sh-focus: 0 0 0 3px rgba(47, 111, 94, .25);
+
+    /* Spacing: bội số của 16px (trừ nhãn–ô nhập 8px) */
+    --sp-half: 8px;
+    --sp-1: 16px;
+    --sp-2: 32px;
+    --sp-3: 48px;
+    --sp-4: 64px;
+    --sp-6: 96px;
+
+    /* Layout */
+    --sidebar-w: 248px;
+    --header-h: 64px;
+    --bottom-nav-h: 64px;
+}
