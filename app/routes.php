@@ -37,6 +37,7 @@ $router->get('/bao-cao', [ReportController::class, 'index']);
 
 // ---- Giao dịch (TV3) ----
 $router->get('/giao-dich', [TransactionController::class, 'index']);
+$router->get('/giao-dich/xuat-csv', [TransactionController::class, 'export']);
 $router->post('/giao-dich', [TransactionController::class, 'store']);
 $router->get('/giao-dich/{id}', [TransactionController::class, 'show']);
 $router->post('/giao-dich/{id}/sua', [TransactionController::class, 'update']);

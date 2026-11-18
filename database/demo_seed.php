@@ -62,6 +62,18 @@ $rows = [
     [26, 'Thưởng',   $bank, 500000,  'Học bổng khuyến khích'],
     [33, 'Ăn uống',  $cash, 47000,   'Cơm trưa'],
     [38, 'Mua sắm',  $momo, 210000,  'Dụng cụ học tập'],
+    // Các tháng trước, để trang Báo cáo có dữ liệu so sánh
+    [42, 'Lương',    $bank, 4000000, 'Lương part-time'],
+    [44, 'Nhà ở',    $bank, 1800000, 'Tiền phòng trọ'],
+    [47, 'Ăn uống',  $cash, 650000,  'Ăn uống cả tuần'],
+    [55, 'Giải trí', $momo, 250000,  'Đi chơi cuối tuần'],
+    [72, 'Lương',    $bank, 3500000, 'Lương part-time'],
+    [74, 'Nhà ở',    $bank, 1800000, 'Tiền phòng trọ'],
+    [78, 'Ăn uống',  $cash, 900000,  'Ăn uống cả tháng'],
+    [82, 'Học tập',  $bank, 1200000, 'Học phí khóa tiếng Anh'],
+    [103, 'Lương',   $bank, 3500000, 'Lương part-time'],
+    [105, 'Nhà ở',   $bank, 1800000, 'Tiền phòng trọ'],
+    [110, 'Ăn uống', $cash, 1100000, 'Ăn uống cả tháng'],
 ];
 $income = ['Lương', 'Làm thêm', 'Thưởng'];
 

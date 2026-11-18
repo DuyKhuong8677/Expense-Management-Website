@@ -17,28 +17,34 @@ use App\Models\Wallet;
  *   POST /giao-dich             thêm (gửi bằng fetch từ hộp thoại)              -> JSON
  *   POST /giao-dich/{id}/sua    sửa  (gửi bằng fetch từ hộp thoại)              -> JSON
  *   POST /giao-dich/{id}/xoa    xóa  (form HTML thường, có xác nhận)            -> chuyển trang
+ *   GET  /giao-dich/xuat-csv    xuất danh sách đang lọc ra file CSV (FR-23)     -> tải file
  *
  * Khi lưu một khoản chi làm ngân sách chạm 80% hoặc vượt 100%, hiện thêm cảnh báo (UC-02, bước 5a).
- * Còn lại cho TV3: FR-07 sắp xếp theo số tiền, xuất CSV (cùng TV5).
+ * Còn lại cho TV3: FR-07 sắp xếp theo số tiền.
  *   Lưu ý: giao dịch thuộc danh mục đã bị ẩn sẽ không chọn lại được danh mục đó trong hộp thoại sửa — cần xử lý.
  */
 class TransactionController extends Controller
 {
-    public function index(): void
+    /** Đọc bộ lọc từ URL (dùng chung cho danh sách và xuất CSV). Trả về [tháng, bộ lọc] */
+    private function filtersFromQuery(): array
     {
-        $user = $this->requireLogin();
-        $userId = (int)$user['id'];
-
         // Tháng đang xem: ?thang=2026-11, mặc định tháng hiện tại
         $month = preg_match('/^\d{4}-(0[1-9]|1[0-2])$/', $_GET['thang'] ?? '') ? $_GET['thang'] : date('Y-m');
-        $filters = [
+        return [$month, [
             'from'        => $month . '-01',
             'to'          => date('Y-m-t', strtotime($month . '-01')),
             'type'        => in_array($_GET['loai'] ?? '', ['income', 'expense'], true) ? $_GET['loai'] : '',
             'category_id' => (int)($_GET['danh_muc'] ?? 0),
             'wallet_id'   => (int)($_GET['vi'] ?? 0),
             'q'           => mb_substr(trim($_GET['q'] ?? ''), 0, 100),
-        ];
+        ]];
+    }
+
+    public function index(): void
+    {
+        $user = $this->requireLogin();
+        $userId = (int)$user['id'];
+        [$month, $filters] = $this->filtersFromQuery();
 
         $this->view('transactions/index', [
             'pageTitle'  => 'Giao dịch',
@@ -50,6 +56,37 @@ class TransactionController extends Controller
             'wallets'    => Wallet::forUser($userId),
             'scripts'    => ['js/transactions.js'],
         ]);
+    }
+
+    /**
+     * Xuất giao dịch đang lọc ra CSV (FR-23). Có BOM UTF-8 để Excel hiện đúng tiếng Việt.
+     * Số tiền ghi dạng số nguyên, chi là số âm, để cộng trừ được ngay trong Excel.
+     */
+    public function export(): void
+    {
+        $user = $this->requireLogin();
+        [$month, $filters] = $this->filtersFromQuery();
+        $rows = Transaction::allFor((int)$user['id'], $filters);
+
+        header('Content-Type: text/csv; charset=utf-8');
+        header('Content-Disposition: attachment; filename="giao-dich-' . $month . '.csv"');
+        $out = fopen('php://output', 'w');
+        fwrite($out, "\xEF\xBB\xBF");
+        fputcsv($out, ['Ngày', 'Loại', 'Danh mục', 'Ví', 'Số tiền (VNĐ)', 'Ghi chú']);
+        foreach ($rows as $r) {
+            $income = $r['type'] === 'income';
+            fputcsv($out, [
+                vn_date($r['trans_date']),
+                $income ? 'Thu' : 'Chi',
+                $r['category_name'],
+                $r['wallet_name'],
+                ($income ? '' : '-') . $r['amount'],
+                // Chặn công thức Excel chèn qua ghi chú (CSV injection): thêm ' trước ký tự = + - @
+                preg_replace('/^([=+\-@])/', "'$1", (string)$r['note']),
+            ]);
+        }
+        fclose($out);
+        exit;
     }
 
     public function show(int $id): void

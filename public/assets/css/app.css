@@ -329,4 +329,6 @@ td.money, th.money { text-align: right; }
 
 /* --- Tổng quan, báo cáo (TV5) --- */
 .chart-box { position: relative; height: 300px; }
+.chart-box-lg { height: 360px; }
+@media (min-width: 1200px) { .chart-box-lg { height: 520px; } }
 /* --- Tài khoản, admin (TV2) --- */

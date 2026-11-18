@@ -86,7 +86,10 @@ $back = 'giao-dich?' . http_build_query($query + ['trang' => $result['page']]);
     <div class="card-body">
         <div class="d-flex align-items-center mb-3">
             <h2 class="h3 mb-0 me-auto">Tháng <?= e(date('m/Y', strtotime($month . '-01'))) ?></h2>
-            <span class="text-muted"><?= (int)$result['total'] ?> giao dịch</span>
+            <span class="text-muted me-2"><?= (int)$result['total'] ?> giao dịch</span>
+            <?php if ($rows): ?>
+                <a class="btn btn-sm btn-outline-primary" href="<?= e(url('giao-dich/xuat-csv?' . http_build_query($query))) ?>"><i class="ph ph-download-simple" aria-hidden="true"></i> Xuất CSV</a>
+            <?php endif; ?>
         </div>
 
         <?php if (!$rows): ?>

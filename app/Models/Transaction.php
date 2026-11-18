@@ -105,6 +105,49 @@ class Transaction
         );
     }
 
+    /** Toàn bộ giao dịch theo bộ lọc, không phân trang (dùng cho xuất CSV). Giới hạn 10.000 dòng. */
+    public static function allFor(int $userId, array $filters): array
+    {
+        [$where, $params] = self::where($userId, $filters);
+        return Database::fetchAll(
+            "SELECT t.type, t.amount, t.trans_date, t.note, c.name AS category_name, w.name AS wallet_name
+             FROM transactions t
+             JOIN categories c ON c.id = t.category_id
+             JOIN wallets w ON w.id = t.wallet_id
+             WHERE $where
+             ORDER BY t.trans_date DESC, t.id DESC
+             LIMIT 10000",
+            $params
+        );
+    }
+
+    /**
+     * Tổng thu, tổng chi của từng tháng trong năm (FR-22). Luôn trả đủ 12 tháng, tháng không có giao dịch = 0.
+     * @return array<int, array{month:int, income:int, expense:int}>
+     */
+    public static function monthlyTotals(int $userId, int $year): array
+    {
+        $rows = Database::fetchAll(
+            "SELECT MONTH(trans_date) AS m,
+                    COALESCE(SUM(CASE WHEN type = 'income'  THEN amount END), 0) AS income,
+                    COALESCE(SUM(CASE WHEN type = 'expense' THEN amount END), 0) AS expense
+             FROM transactions
+             WHERE user_id = ? AND trans_date BETWEEN ? AND ?
+             GROUP BY MONTH(trans_date)",
+            [$userId, "$year-01-01", "$year-12-31"]
+        );
+        $byMonth = array_column($rows, null, 'm');
+        $result = [];
+        for ($m = 1; $m <= 12; $m++) {
+            $result[] = [
+                'month'   => $m,
+                'income'  => (int)($byMonth[$m]['income'] ?? 0),
+                'expense' => (int)($byMonth[$m]['expense'] ?? 0),
+            ];
+        }
+        return $result;
+    }
+
     public static function findForUser(int $id, int $userId): ?array
     {
         return Database::fetch(
