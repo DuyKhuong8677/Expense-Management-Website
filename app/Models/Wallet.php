@@ -52,11 +52,28 @@ class Wallet
         );
     }
 
+    /** Lấy ví của người dùng (kèm số dư ban đầu) để sửa. Không phải ví của họ thì trả về null */
+    public static function findOwn(int $id, int $userId): ?array
+    {
+        return Database::fetch(
+            'SELECT id, name, type, initial_balance FROM wallets WHERE id = ? AND user_id = ? AND is_hidden = 0',
+            [$id, $userId]
+        );
+    }
+
     public static function create(int $userId, string $name, string $type, int $initialBalance): int
     {
         return Database::insert(
             'INSERT INTO wallets (user_id, name, type, initial_balance) VALUES (?, ?, ?, ?)',
             [$userId, trim($name), $type, $initialBalance]
+        );
+    }
+
+    public static function update(int $id, int $userId, string $name, string $type, int $initialBalance): void
+    {
+        Database::query(
+            'UPDATE wallets SET name = ?, type = ?, initial_balance = ? WHERE id = ? AND user_id = ?',
+            [trim($name), $type, $initialBalance, $id, $userId]
         );
     }
 }

@@ -46,6 +46,7 @@ $router->post('/giao-dich/{id}/xoa', [TransactionController::class, 'destroy']);
 // ---- Ví, danh mục, ngân sách (TV4) ----
 $router->get('/vi', [WalletController::class, 'index']);
 $router->post('/vi', [WalletController::class, 'store']);
+$router->post('/vi/{id}/sua', [WalletController::class, 'update']);
 $router->get('/danh-muc', [CategoryController::class, 'index']);
 $router->post('/danh-muc', [CategoryController::class, 'store']);
 $router->post('/danh-muc/{id}/sua', [CategoryController::class, 'update']);
