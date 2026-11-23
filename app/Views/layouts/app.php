@@ -16,56 +16,193 @@ $noindex = true;
 </head>
 <body>
 <div class="app-shell">
-    <aside class="sidebar" aria-label="Menu chính">
-        <a class="brand" href="<?= url('tong-quan') ?>"><i class="ph ph-wallet" aria-hidden="true"></i> Quản lý chi tiêu</a>
+    <!-- Nền mờ khi mở menu trên điện thoại -->
+    <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
 
-        <nav class="nav flex-column gap-1">
-            <a class="nav-link<?= active('tong-quan') ?>" href="<?= url('tong-quan') ?>"><i class="ph ph-squares-four" aria-hidden="true"></i> Tổng quan</a>
-            <a class="nav-link<?= active('giao-dich') ?>" href="<?= url('giao-dich') ?>"><i class="ph ph-list-bullets" aria-hidden="true"></i> Giao dịch</a>
-            <a class="nav-link<?= active('vi') ?>" href="<?= url('vi') ?>"><i class="ph ph-wallet" aria-hidden="true"></i> Ví tiền</a>
-            <a class="nav-link<?= active('danh-muc') ?>" href="<?= url('danh-muc') ?>"><i class="ph ph-tag" aria-hidden="true"></i> Danh mục</a>
-            <a class="nav-link<?= active('ngan-sach') ?>" href="<?= url('ngan-sach') ?>"><i class="ph ph-target" aria-hidden="true"></i> Ngân sách</a>
-            <a class="nav-link<?= active('bao-cao') ?>" href="<?= url('bao-cao') ?>"><i class="ph ph-chart-pie-slice" aria-hidden="true"></i> Báo cáo</a>
-        </nav>
+    <!-- Floating Glassy Sidebar V5 -->
+    <aside class="sidebar glassy-sidebar" id="appSidebar" aria-label="Menu chính">
+        <!-- Nút tròn thu gọn / mở rộng menu (< / >) -->
+        <button class="sidebar-toggle-btn" id="sidebarToggleBtn" type="button" aria-expanded="true" aria-label="Thu gọn menu" title="Thu gọn menu (Ctrl + B)">
+            <i class="ph ph-caret-left" aria-hidden="true"></i>
+        </button>
 
-        <?php if (Auth::isAdmin()): ?>
-            <div class="nav-group">Quản trị</div>
-            <nav class="nav flex-column">
-                <a class="nav-link<?= active('admin') ?>" href="<?= url('admin') ?>"><i class="ph ph-shield-check" aria-hidden="true"></i> Trang quản trị</a>
-            </nav>
-        <?php endif; ?>
+        <!-- Phần đầu: Logo & Tiêu đề thương hiệu -->
+        <div class="sidebar-header">
+            <a class="brand" href="<?= url('tong-quan') ?>" title="Quản lý chi tiêu" data-tooltip="Quản lý chi tiêu">
+                <span class="brand-logo"><i class="ph ph-wallet" aria-hidden="true"></i></span>
+                <div class="brand-details">
+                    <span class="brand-title">Quản lý chi tiêu</span>
+                    <span class="brand-subtitle">Fintech Bento Portal</span>
+                </div>
+            </a>
+        </div>
 
-        <div class="mt-auto">
-            <a class="nav-link<?= active('huong-dan') ?>" href="<?= url('huong-dan') ?>"><i class="ph ph-question" aria-hidden="true"></i> Hướng dẫn</a>
-            <a class="nav-link<?= active('lien-he') ?>" href="<?= url('lien-he') ?>"><i class="ph ph-chat-circle-text" aria-hidden="true"></i> Góp ý</a>
+        <!-- Thanh tìm kiếm nhanh menu -->
+        <div class="sidebar-search">
+            <div class="search-input-wrap">
+                <i class="ph ph-magnifying-glass search-icon" aria-hidden="true"></i>
+                <input type="text" class="sidebar-search-input" id="sidebarSearchInput" placeholder="Tìm nhanh trang..." aria-label="Tìm nhanh trang" autocomplete="off">
+                <button class="search-clear-btn d-none" id="sidebarSearchClear" type="button" aria-label="Xóa tìm kiếm">
+                    <i class="ph ph-x" aria-hidden="true"></i>
+                </button>
+            </div>
+            <button class="search-collapsed-btn" id="sidebarSearchCollapsedBtn" type="button" aria-label="Tìm kiếm trang" title="Tìm nhanh trang" data-tooltip="Tìm nhanh trang">
+                <i class="ph ph-magnifying-glass" aria-hidden="true"></i>
+            </button>
+        </div>
+
+        <!-- Thân Sidebar: Danh sách các phân hệ -->
+        <div class="sidebar-body" id="sidebarNavBody">
+            <div class="nav-section">
+                <span class="nav-group">CHÍNH</span>
+                <nav class="nav flex-column gap-1">
+                    <a class="nav-link<?= active('tong-quan') ?>" href="<?= url('tong-quan') ?>" data-tooltip="Tổng quan">
+                        <i class="ph ph-squares-four" aria-hidden="true"></i>
+                        <span class="nav-label">Tổng quan</span>
+                    </a>
+                    <a class="nav-link<?= active('giao-dich') ?>" href="<?= url('giao-dich') ?>" data-tooltip="Giao dịch">
+                        <i class="ph ph-list-bullets" aria-hidden="true"></i>
+                        <span class="nav-label">Giao dịch</span>
+                    </a>
+                    <a class="nav-link<?= active('vi') ?>" href="<?= url('vi') ?>" data-tooltip="Ví tiền">
+                        <i class="ph ph-wallet" aria-hidden="true"></i>
+                        <span class="nav-label">Ví tiền</span>
+                    </a>
+                    <a class="nav-link<?= active('danh-muc') ?>" href="<?= url('danh-muc') ?>" data-tooltip="Danh mục">
+                        <i class="ph ph-tag" aria-hidden="true"></i>
+                        <span class="nav-label">Danh mục</span>
+                    </a>
+                    <a class="nav-link<?= active('ngan-sach') ?>" href="<?= url('ngan-sach') ?>" data-tooltip="Ngân sách">
+                        <i class="ph ph-target" aria-hidden="true"></i>
+                        <span class="nav-label">Ngân sách</span>
+                        <span class="nav-dot" aria-hidden="true"></span>
+                    </a>
+                    <a class="nav-link<?= active('bao-cao') ?>" href="<?= url('bao-cao') ?>" data-tooltip="Báo cáo">
+                        <i class="ph ph-chart-pie-slice" aria-hidden="true"></i>
+                        <span class="nav-label">Báo cáo</span>
+                    </a>
+                </nav>
+            </div>
+
+            <?php if (Auth::isAdmin()): ?>
+                <div class="nav-section">
+                    <span class="nav-group">QUẢN TRỊ</span>
+                    <nav class="nav flex-column gap-1">
+                        <a class="nav-link<?= active('admin') ?>" href="<?= url('admin') ?>" data-tooltip="Trang quản trị">
+                            <i class="ph ph-shield-check" aria-hidden="true"></i>
+                            <span class="nav-label">Trang quản trị</span>
+                        </a>
+                    </nav>
+                </div>
+            <?php endif; ?>
+
+            <div class="nav-section mt-auto">
+                <span class="nav-group">HỖ TRỢ</span>
+                <nav class="nav flex-column gap-1">
+                    <a class="nav-link<?= active('huong-dan') ?>" href="<?= url('huong-dan') ?>" data-tooltip="Hướng dẫn">
+                        <i class="ph ph-question" aria-hidden="true"></i>
+                        <span class="nav-label">Hướng dẫn</span>
+                    </a>
+                    <a class="nav-link<?= active('lien-he') ?>" href="<?= url('lien-he') ?>" data-tooltip="Góp ý">
+                        <i class="ph ph-chat-circle-text" aria-hidden="true"></i>
+                        <span class="nav-label">Góp ý</span>
+                    </a>
+                </nav>
+            </div>
+
+            <div class="sidebar-search-empty d-none p-2 text-center text-muted small">
+                Không tìm thấy trang phù hợp
+            </div>
+        </div>
+
+        <!-- Chân Sidebar: Day–Night Sky Switch (Lucian #021) & Profile card -->
+        <div class="sidebar-footer">
+            <!-- Lucian UX/UI Prompt #021 · Day–Night Sky Switch -->
+            <div class="sidebar-theme-wrap">
+                <?php require VIEW_PATH . '/partials/sky-switch.php'; ?>
+            </div>
+
+            <!-- Thẻ hồ sơ cá nhân với avatar + online status dot -->
+            <div class="sidebar-user-card" id="sidebarUserCard" data-tooltip="<?= e($user['full_name']) ?> (<?= e($user['email']) ?>)">
+                <div class="user-avatar-wrap">
+                    <span class="avatar"><?= e($initial) ?></span>
+                    <span class="online-status-dot" title="Đang hoạt động"></span>
+                </div>
+                <div class="user-details min-w-0">
+                    <div class="user-name text-truncate"><?= e($user['full_name']) ?></div>
+                    <div class="user-role text-muted text-truncate"><?= Auth::isAdmin() ? 'Quản trị viên' : 'Thành viên' ?></div>
+                </div>
+                <div class="user-action dropdown">
+                    <button class="btn btn-sm btn-icon-sm p-0 border-0" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Tùy chọn tài khoản">
+                        <i class="ph ph-dots-three-vertical" aria-hidden="true"></i>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end shadow-sm">
+                        <li class="px-3 py-2 border-bottom mb-1">
+                            <div class="fw-semibold text-truncate" style="max-width: 180px;"><?= e($user['full_name']) ?></div>
+                            <div class="text-muted small text-truncate" style="max-width: 180px;"><?= e($user['email']) ?></div>
+                        </li>
+                        <li><a class="dropdown-item" href="<?= url('tai-khoan') ?>"><i class="ph ph-user-circle" aria-hidden="true"></i> <span>Tài khoản</span></a></li>
+                        <li><hr class="dropdown-divider my-1"></li>
+                        <li>
+                            <form method="post" action="<?= url('dang-xuat') ?>">
+                                <?= csrf_field() ?>
+                                <button class="dropdown-item text-danger" type="submit"><i class="ph ph-sign-out" aria-hidden="true"></i> <span>Đăng xuất</span></button>
+                            </form>
+                        </li>
+                    </ul>
+                </div>
+            </div>
         </div>
     </aside>
 
+    <!-- Nhãn nổi thông minh khi thu gọn menu (Floating Glass Tooltip - Lucian UX/UI) -->
+    <div class="sidebar-floating-tooltip" id="sidebarFloatingTooltip" role="tooltip" aria-hidden="true">
+        <span class="tooltip-label"></span>
+    </div>
+
     <div class="app-main">
         <header class="app-header">
-            <h1><?= e($pageTitle) ?></h1>
+            <!-- Nút hamburger mở menu trên điện thoại -->
+            <button class="btn btn-outline-secondary btn-icon-sm d-lg-none me-2" id="sidebarMobileToggle" type="button" aria-label="Mở menu điều hướng">
+                <i class="ph ph-list" aria-hidden="true"></i>
+            </button>
 
-            <!-- Nút chính duy nhất trên màn hình (CL-06). TV3 gắn hộp thoại thêm giao dịch vào nút này. -->
-            <a class="btn btn-primary" href="<?= url('giao-dich?them=1') ?>" id="btnAddTransaction">
-                <i class="ph ph-plus" aria-hidden="true"></i><span class="btn-add-label"> Thêm giao dịch</span>
-            </a>
+            <h1 id="appPageHeaderTitle"><?= e($pageTitle) ?></h1>
 
-            <div class="dropdown">
-                <button class="btn p-0 border-0" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Tài khoản">
-                    <span class="avatar"><?= e($initial) ?></span>
+            <div class="d-flex align-items-center gap-2 gap-sm-3">
+                <!-- Nút chính duy nhất trên màn hình (CL-06). TV3 gắn hộp thoại thêm giao dịch vào nút này. -->
+                <a class="btn btn-primary" href="<?= url('giao-dich?them=1') ?>" id="btnAddTransaction">
+                    <i class="ph ph-plus" aria-hidden="true"></i><span class="btn-add-label"> Thêm giao dịch</span>
+                </a>
+
+                <!-- Công tắc bầu trời Ngày / Đêm Compact (Lucian UX/UI Prompt #021) -->
+                <button class="u021-header-sw theme-toggle-btn" id="themeToggleBtn" type="button" role="switch" aria-checked="false" aria-label="Chuyển chế độ Ngày / Đêm" title="Đổi giao diện Ngày / Đêm (Lucian #021)">
+                    <span class="u021-h-stars" aria-hidden="true"><i></i><i></i><i></i></span>
+                    <span class="u021-h-clouds" aria-hidden="true"><i></i><i></i></span>
+                    <span class="u021-h-knob" aria-hidden="true">
+                        <span class="u021-h-moon"><i></i><i></i></span>
+                    </span>
                 </button>
-                <ul class="dropdown-menu dropdown-menu-end">
-                    <li><span class="dropdown-item-text fw-semibold"><?= e($user['full_name']) ?></span></li>
-                    <li><span class="dropdown-item-text text-muted"><?= e($user['email']) ?></span></li>
-                    <li><hr class="dropdown-divider"></li>
-                    <li><a class="dropdown-item" href="<?= url('tai-khoan') ?>"><i class="ph ph-user-circle" aria-hidden="true"></i> Tài khoản</a></li>
-                    <li>
-                        <form method="post" action="<?= url('dang-xuat') ?>">
-                            <?= csrf_field() ?>
-                            <button class="dropdown-item" type="submit"><i class="ph ph-sign-out" aria-hidden="true"></i> Đăng xuất</button>
-                        </form>
-                    </li>
-                </ul>
+
+                <div class="dropdown">
+                    <button class="btn p-0 border-0" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Tài khoản">
+                        <span class="avatar"><?= e($initial) ?></span>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end shadow-sm">
+                        <li class="px-3 py-2 border-bottom mb-1">
+                            <div class="fw-semibold text-truncate" style="max-width: 180px;"><?= e($user['full_name']) ?></div>
+                            <div class="text-muted small text-truncate" style="max-width: 180px;"><?= e($user['email']) ?></div>
+                        </li>
+                        <li><a class="dropdown-item" href="<?= url('tai-khoan') ?>"><i class="ph ph-user-circle" aria-hidden="true"></i> <span>Tài khoản</span></a></li>
+                        <li><hr class="dropdown-divider my-1"></li>
+                        <li>
+                            <form method="post" action="<?= url('dang-xuat') ?>">
+                                <?= csrf_field() ?>
+                                <button class="dropdown-item text-danger" type="submit"><i class="ph ph-sign-out" aria-hidden="true"></i> <span>Đăng xuất</span></button>
+                            </form>
+                        </li>
+                    </ul>
+                </div>
             </div>
         </header>
 
@@ -75,13 +212,8 @@ $noindex = true;
         </main>
     </div>
 
-    <nav class="bottom-nav" aria-label="Menu chính">
-        <a class="<?= trim(active('tong-quan')) ?>" href="<?= url('tong-quan') ?>"><i class="ph ph-squares-four" aria-hidden="true"></i>Tổng quan</a>
-        <a class="<?= trim(active('giao-dich')) ?>" href="<?= url('giao-dich') ?>"><i class="ph ph-list-bullets" aria-hidden="true"></i>Giao dịch</a>
-        <a class="<?= trim(active('ngan-sach')) ?>" href="<?= url('ngan-sach') ?>"><i class="ph ph-target" aria-hidden="true"></i>Ngân sách</a>
-        <a class="<?= trim(active('bao-cao')) ?>" href="<?= url('bao-cao') ?>"><i class="ph ph-chart-pie-slice" aria-hidden="true"></i>Báo cáo</a>
-        <a class="<?= trim(active('vi')) ?>" href="<?= url('vi') ?>"><i class="ph ph-wallet" aria-hidden="true"></i>Ví</a>
-    </nav>
+    <!-- Lucian UX/UI Prompt #041 · Notched bottom tab bar (Mobile) -->
+    <?php require VIEW_PATH . '/partials/bottom-nav.php'; ?>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" defer></script>

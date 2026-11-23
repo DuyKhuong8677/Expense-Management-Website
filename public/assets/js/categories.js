@@ -5,8 +5,22 @@
 (function () {
     const modalEl = document.getElementById('catModal');
     if (!modalEl) return;
+
+    // Đưa modal ra trực tiếp dưới document.body để thoát khỏi stacking context của .app-content
+    if (modalEl.parentElement && modalEl.parentElement !== document.body) {
+        document.body.appendChild(modalEl);
+    }
+
     const modal = new bootstrap.Modal(modalEl);
     const form = document.getElementById('catForm');
+
+    modalEl.addEventListener('shown.bs.modal', () => {
+        const nameInput = document.getElementById('editName');
+        if (nameInput) {
+            nameInput.focus();
+            nameInput.select();
+        }
+    });
 
     function open(data) {
         form.action = `${form.dataset.base}/${data.id}/sua`;
