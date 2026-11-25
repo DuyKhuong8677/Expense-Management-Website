@@ -9,6 +9,8 @@ Người dùng ghi thu chi hằng ngày, quản lý nhiều ví, đặt ngân s�
 
 ## 1. Cài đặt trên máy (làm một lần)
 
+> **Thành viên mới:** đọc [docs/HUONG-DAN-CHAY.md](docs/HUONG-DAN-CHAY.md), có hướng dẫn từng bước từ cài XAMPP, Git tới cách sửa lỗi thường gặp.
+
 ### Bước 1 — Tải code
 
 **XAMPP:** clone vào `C:\xampp\htdocs\`
