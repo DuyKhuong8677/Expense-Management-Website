@@ -295,9 +295,10 @@ Live demo: https://lucianlabs.dev/uxui-prompt/#214
 }
 .u214-lt i {
     flex: none;
-    width: 28px;
     height: 28px;
+    padding: 0 10px;
     border-radius: 8px;
+    white-space: nowrap;
     background: var(--ux-surface);
     box-shadow: 0 0 0 1px var(--ux-line);
     display: grid;
@@ -324,16 +325,16 @@ Live demo: https://lucianlabs.dev/uxui-prompt/#214
 
 <div class="ux u214">
     <div class="u214-hd">
-        <small>HỆ SINH THÁI TIỆN ÍCH</small>
-        <h3>Trợ lý chi tiêu toàn diện</h3>
+        <small>TÍNH NĂNG CHÍNH</small>
+        <h3>Quản lý thu chi ở một nơi</h3>
     </div>
     <div class="u214-gd">
-        <!-- Tile A: Chia sẻ chi tiêu -->
-        <div class="u214-t u214-a" tabindex="0" role="region" aria-label="Chi tiêu nhóm">
-            <b>Chi tiêu nhóm</b>
-            <small>3 người cùng chia tiền</small>
+        <!-- Tile A: Ngân sách tháng -->
+        <div class="u214-t u214-a" tabindex="0" role="region" aria-label="Ngân sách tháng">
+            <b>Ngân sách tháng</b>
+            <small>Cảnh báo khi dùng tới 80%</small>
             <span class="u214-av" aria-hidden="true"><i></i><i></i><i></i></span>
-            <div class="u214-ty" aria-hidden="true">Tiền phòng &amp; điện nước</div>
+            <div class="u214-ty" aria-hidden="true">Ăn uống: 255.000 / 400.000 ₫</div>
         </div>
 
         <!-- Tile B: Tìm kiếm nhanh -->
@@ -341,7 +342,7 @@ Live demo: https://lucianlabs.dev/uxui-prompt/#214
             <b>Tìm kiếm</b>
             <div class="u214-sb" aria-hidden="true">
                 <svg viewBox="0 0 12 12"><circle cx="5" cy="5" r="3.4" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M7.6 7.6 10.5 10.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
-                <span>Giao dịch...</span>
+                <span>Tìm ghi chú...</span>
             </div>
             <div class="u214-rs" aria-hidden="true">
                 <i style="--w:.92"></i>
@@ -360,7 +361,7 @@ Live demo: https://lucianlabs.dev/uxui-prompt/#214
         <!-- Tile D: Bảo mật tài chính -->
         <div class="u214-t u214-d" tabindex="0" role="region" aria-label="Bảo mật tài chính">
             <b>Bảo mật</b>
-            <small>Mã hóa 2 lớp</small>
+            <small>Mật khẩu mã hóa bcrypt</small>
             <span class="u214-sh" aria-hidden="true">
                 <svg viewBox="0 0 30 34">
                     <path d="M15 2l11 4.5v8.5c0 8-5 13.5-11 16.5C9 28.5 4 23 4 15V6.5z" fill="currentColor" opacity=".18"/>
@@ -370,10 +371,10 @@ Live demo: https://lucianlabs.dev/uxui-prompt/#214
             </span>
         </div>
 
-        <!-- Tile E: Liên kết ví & ngân hàng -->
-        <div class="u214-t u214-e" tabindex="0" role="region" aria-label="Liên kết ngân hàng và ví">
-            <b>Liên kết ví & ngân hàng</b>
-            <small>Đồng bộ giao dịch tự động</small>
+        <!-- Tile E: Nhiều ví -->
+        <div class="u214-t u214-e" tabindex="0" role="region" aria-label="Quản lý nhiều ví">
+            <b>Nhiều ví tiền</b>
+            <small>Chuyển tiền giữa các ví</small>
             <div class="u214-lg" aria-hidden="true">
                 <div class="u214-lt"></div>
             </div>
@@ -402,15 +403,13 @@ Live demo: https://lucianlabs.dev/uxui-prompt/#214
         });
     }
 
-    // Danh sách ngân hàng & ví điện tử Việt Nam phổ biến
+    // Các loại ví người dùng tự tạo (không liên kết ngân hàng thật)
     if (lt && !lt.children.length) {
         var LOGOS = [
-            ['VCB', '#00693E'],
-            ['MB', '#0033A0'],
-            ['TCB', '#DA291C'],
-            ['MoMo', '#A50064'],
-            ['Zalo', '#0068FF'],
-            ['VPB', '#008542']
+            ['Tiền mặt', 'var(--c-primary)'],
+            ['Ngân hàng', 'var(--c-primary)'],
+            ['Ví điện tử', 'var(--c-primary)'],
+            ['Thẻ', 'var(--c-primary)']
         ];
         LOGOS.concat(LOGOS).forEach(function (l) {
             var i = document.createElement('i');
@@ -437,8 +436,8 @@ Live demo: https://lucianlabs.dev/uxui-prompt/#214
         })();
     }
 
-    var defaultTy = 'Tiền phòng & điện nước';
-    var defaultSb = 'Giao dịch...';
+    var defaultTy = 'Ăn uống: 255.000 / 400.000 ₫';
+    var defaultSb = 'Tìm ghi chú...';
     if (ty) ty.textContent = defaultTy;
     if (sb) sb.textContent = defaultSb;
 
@@ -446,10 +445,10 @@ Live demo: https://lucianlabs.dev/uxui-prompt/#214
         function on() {
             t.classList.add('is-on');
             if (i === 0 && ty) {
-                type(ty, 'Đã chia tiền điện nước: 450.000 ₫/người', 'a');
+                type(ty, 'Mua sắm vượt hạn mức 90.000 ₫', 'a');
             }
             if (i === 1 && sb) {
-                type(sb, 'Hóa đơn VinMart 250k', 'b');
+                type(sb, 'cơm trưa', 'b');
             }
         }
         function off() {

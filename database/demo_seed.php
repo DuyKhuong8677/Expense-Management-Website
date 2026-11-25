@@ -27,13 +27,13 @@ Database::query('DELETE FROM users WHERE email = ?', [$email]);
 
 $userId = User::register('Nguyễn Minh An', $email, 'Demo@123');
 $cash = (int)Database::fetch('SELECT id FROM wallets WHERE user_id = ?', [$userId])['id'];
-Database::query('UPDATE wallets SET initial_balance = 800000 WHERE id = ?', [$cash]);
+Database::query('UPDATE wallets SET initial_balance = 4000000 WHERE id = ?', [$cash]);
 $bank = Database::insert(
     "INSERT INTO wallets (user_id, name, type, initial_balance) VALUES (?, 'Vietcombank', 'bank', 2000000)",
     [$userId]
 );
 $momo = Database::insert(
-    "INSERT INTO wallets (user_id, name, type, initial_balance) VALUES (?, 'MoMo', 'ewallet', 500000)",
+    "INSERT INTO wallets (user_id, name, type, initial_balance) VALUES (?, 'MoMo', 'ewallet', 1000000)",
     [$userId]
 );
 

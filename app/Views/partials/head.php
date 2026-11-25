@@ -25,11 +25,6 @@
             metaTheme.setAttribute('content', theme === 'dark' ? '#0F1115' : '#F6F8FA');
         }
 
-        try {
-            localStorage.removeItem('app_lang');
-            document.cookie = 'app_lang=;path=/;max-age=0;SameSite=Lax';
-        } catch (e) {}
-
         if (localStorage.getItem('sidebar_collapsed') === 'true' && window.innerWidth >= 992) {
             document.documentElement.classList.add('sidebar-is-collapsed');
         }

@@ -32,7 +32,7 @@ $noindex = true;
                 <span class="brand-logo"><i class="ph ph-wallet" aria-hidden="true"></i></span>
                 <div class="brand-details">
                     <span class="brand-title">Quản lý chi tiêu</span>
-                    <span class="brand-subtitle">Fintech Bento Portal</span>
+                    <span class="brand-subtitle">Thu chi cá nhân</span>
                 </div>
             </a>
         </div>
@@ -115,13 +115,8 @@ $noindex = true;
             </div>
         </div>
 
-        <!-- Chân Sidebar: Day–Night Sky Switch (Lucian #021) & Profile card -->
+        <!-- Chân Sidebar: thẻ hồ sơ (đổi giao diện và menu tài khoản nằm trên header) -->
         <div class="sidebar-footer">
-            <!-- Lucian UX/UI Prompt #021 · Day–Night Sky Switch -->
-            <div class="sidebar-theme-wrap">
-                <?php require VIEW_PATH . '/partials/sky-switch.php'; ?>
-            </div>
-
             <!-- Thẻ hồ sơ cá nhân với avatar + online status dot -->
             <div class="sidebar-user-card" id="sidebarUserCard" data-tooltip="<?= e($user['full_name']) ?> (<?= e($user['email']) ?>)">
                 <div class="user-avatar-wrap">
@@ -131,25 +126,6 @@ $noindex = true;
                 <div class="user-details min-w-0">
                     <div class="user-name text-truncate"><?= e($user['full_name']) ?></div>
                     <div class="user-role text-muted text-truncate"><?= Auth::isAdmin() ? 'Quản trị viên' : 'Thành viên' ?></div>
-                </div>
-                <div class="user-action dropdown">
-                    <button class="btn btn-sm btn-icon-sm p-0 border-0" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Tùy chọn tài khoản">
-                        <i class="ph ph-dots-three-vertical" aria-hidden="true"></i>
-                    </button>
-                    <ul class="dropdown-menu dropdown-menu-end shadow-sm">
-                        <li class="px-3 py-2 border-bottom mb-1">
-                            <div class="fw-semibold text-truncate" style="max-width: 180px;"><?= e($user['full_name']) ?></div>
-                            <div class="text-muted small text-truncate" style="max-width: 180px;"><?= e($user['email']) ?></div>
-                        </li>
-                        <li><a class="dropdown-item" href="<?= url('tai-khoan') ?>"><i class="ph ph-user-circle" aria-hidden="true"></i> <span>Tài khoản</span></a></li>
-                        <li><hr class="dropdown-divider my-1"></li>
-                        <li>
-                            <form method="post" action="<?= url('dang-xuat') ?>">
-                                <?= csrf_field() ?>
-                                <button class="dropdown-item text-danger" type="submit"><i class="ph ph-sign-out" aria-hidden="true"></i> <span>Đăng xuất</span></button>
-                            </form>
-                        </li>
-                    </ul>
                 </div>
             </div>
         </div>

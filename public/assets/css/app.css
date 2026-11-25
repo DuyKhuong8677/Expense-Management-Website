@@ -1777,6 +1777,10 @@ body.modal-open .app-content {
 }
 
 /* Hàng trong bảng giao dịch xuất hiện so le nhẹ nhàng */
+/* Chữ ẩn cho trình đọc màn hình (visually-hidden) dùng position:absolute: nếu khung cuộn bảng không
+   có position thì chữ này thoát ra ngoài, kéo trang rộng hơn màn hình điện thoại và đẩy thanh menu dưới ra ngoài. */
+.table-responsive { position: relative; }
+
 .tx-table tbody tr:nth-child(-n+6) {
     animation: staggerRow 0.26s cubic-bezier(0.16, 1, 0.3, 1) both;
 }

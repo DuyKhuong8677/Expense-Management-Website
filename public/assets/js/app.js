@@ -6,11 +6,6 @@
  *   toast('Đã lưu giao dịch');
  */
 
-try {
-    localStorage.removeItem('app_lang');
-    document.cookie = 'app_lang=;path=/;max-age=0;SameSite=Lax';
-} catch (e) {}
-
 /** Mã hóa chuỗi trước khi chèn vào innerHTML (chống XSS). BẮT BUỘC với dữ liệu người dùng. */
 function escapeHtml(value) {
     return String(value ?? '')

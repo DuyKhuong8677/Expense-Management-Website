@@ -72,12 +72,9 @@ $chart = [
     </div>
 </div>
 
-<!-- Bento Row: Hệ sinh thái tiện ích Bento (Lucian #214) & Giao dịch gần đây -->
+<!-- Giao dịch gần đây -->
 <div class="row g-3 mb-4">
-    <div class="col-xl-5 col-lg-6">
-        <?php require VIEW_PATH . '/partials/bento-features.php'; ?>
-    </div>
-    <div class="col-xl-7 col-lg-6">
+    <div class="col-12">
         <div class="card h-100">
             <div class="card-body">
                 <div class="d-flex align-items-center justify-content-between mb-3 pb-2 border-bottom">

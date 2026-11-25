@@ -85,13 +85,13 @@
     <div class="container">
         <div class="row align-items-center g-4 g-lg-5">
             <div class="col-lg-6 text-center text-lg-start">
-                <div class="badge bg-primary-subtle text-primary border border-primary-subtle px-3 py-1 mb-2 fw-semibold">HỆ SINH THÁI BENTO</div>
-                <h2 class="mb-3">Tương tác trực quan, làm chủ tài chính</h2>
-                <p class="text-muted fs-6 mb-4">Trải nghiệm các tiện ích quản lý thông minh: chia sẻ chi tiêu nhóm, tìm kiếm giao dịch tức thì, biểu đồ thu chi động, bảo mật mã hóa và kết nối đa ngân hàng/ví điện tử.</p>
+                <div class="badge bg-primary-subtle text-primary border border-primary-subtle px-3 py-1 mb-2 fw-semibold">TÍNH NĂNG</div>
+                <h2 class="mb-3">Mọi khoản thu chi trong một nơi</h2>
+                <p class="text-muted fs-6 mb-4">Đặt ngân sách cho từng danh mục, tìm giao dịch theo ghi chú, xem biểu đồ thu chi theo tháng, quản lý nhiều ví và chuyển tiền giữa các ví. Mật khẩu được mã hóa, dữ liệu của ai chỉ người đó xem được.</p>
                 <div class="d-flex flex-wrap gap-2 justify-content-center justify-content-lg-start text-muted small">
-                    <span class="d-inline-flex align-items-center gap-1"><i class="ph ph-check-circle text-success" aria-hidden="true"></i> Chia sẻ nhóm</span>
-                    <span class="d-inline-flex align-items-center gap-1 ms-3"><i class="ph ph-check-circle text-success" aria-hidden="true"></i> Tìm kiếm siêu tốc</span>
-                    <span class="d-inline-flex align-items-center gap-1 ms-3"><i class="ph ph-check-circle text-success" aria-hidden="true"></i> Bảo mật đa lớp</span>
+                    <span class="d-inline-flex align-items-center gap-1"><i class="ph ph-check-circle text-success" aria-hidden="true"></i> Ngân sách tháng</span>
+                    <span class="d-inline-flex align-items-center gap-1 ms-3"><i class="ph ph-check-circle text-success" aria-hidden="true"></i> Tìm kiếm nhanh</span>
+                    <span class="d-inline-flex align-items-center gap-1 ms-3"><i class="ph ph-check-circle text-success" aria-hidden="true"></i> Nhiều ví tiền</span>
                 </div>
             </div>
             <div class="col-lg-6 d-flex justify-content-center">
