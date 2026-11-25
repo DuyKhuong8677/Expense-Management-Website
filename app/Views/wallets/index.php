@@ -24,8 +24,14 @@ $defaultTo = (string)($wallets[1]['id'] ?? '');
     <div class="col-lg-8">
         <div class="card mb-3">
             <div class="card-body">
-                <div class="text-muted">Tổng số dư tất cả ví</div>
-                <div class="money money-display <?= $total < 0 ? 'money-expense' : '' ?>"><?= $total < 0 ? '−' : '' ?><?= money(abs($total)) ?></div>
+                <div class="d-flex align-items-center justify-content-between mb-2">
+                    <span class="stat-label mb-0">Tổng số dư tất cả ví</span>
+                    <span class="stat-icon-badge"><i class="ph ph-wallet" aria-hidden="true"></i></span>
+                </div>
+                <div class="money money-display <?= $total < 0 ? 'money-expense' : '' ?>">
+                    <?= $total < 0 ? '−' : '' ?><?= money(abs($total)) ?>
+                </div>
+                <div class="text-muted small mt-2">Tổng số dư của các ví đang dùng</div>
             </div>
         </div>
 
@@ -35,14 +41,19 @@ $defaultTo = (string)($wallets[1]['id'] ?? '');
                     <div class="card h-100">
                         <div class="card-body d-flex gap-3 align-items-center">
                             <span class="feature-icon mb-0"><i class="ph ph-<?= e($icons[$w['type']] ?? 'wallet') ?>" aria-hidden="true"></i></span>
-                            <div class="flex-fill">
-                                <div class="fw-semibold"><?= e($w['name']) ?></div>
-                                <div class="text-muted"><?= e(Wallet::TYPES[$w['type']] ?? '') ?></div>
+                            <div class="flex-fill min-w-0">
+                                <div class="fw-semibold text-truncate"><?= e($w['name']) ?></div>
+                                <div class="text-muted small text-truncate"><?= e(Wallet::TYPES[$w['type']] ?? '') ?></div>
                             </div>
-                            <div class="money fs-5 fw-semibold <?= $b < 0 ? 'money-expense' : '' ?>"><?= $b < 0 ? '−' : '' ?><?= money(abs($b)) ?></div>
+                            <div class="money fs-5 fw-semibold text-nowrap <?= $b < 0 ? 'money-expense' : '' ?>">
+                                <?= $b < 0 ? '−' : '' ?><?= money(abs($b)) ?>
+                            </div>
                         </div>
-                        <div class="card-footer bg-transparent d-flex justify-content-between align-items-center">
-                            <a href="<?= url('giao-dich?vi=' . (int)$w['id']) ?>">Xem giao dịch của ví này</a>
+                        <div class="card-footer bg-transparent py-2 d-flex justify-content-between align-items-center">
+                            <a class="small fw-semibold d-inline-flex align-items-center gap-1" href="<?= url('giao-dich?vi=' . (int)$w['id']) ?>">
+                                <span>Xem giao dịch ví này</span>
+                                <i class="ph ph-arrow-right" aria-hidden="true"></i>
+                            </a>
                             <div class="d-flex gap-1">
                                 <button class="btn btn-sm btn-outline-secondary js-edit-wallet" type="button"
                                         data-id="<?= (int)$w['id'] ?>" data-name="<?= e($w['name']) ?>" data-type="<?= e($w['type']) ?>"
@@ -129,12 +140,13 @@ $defaultTo = (string)($wallets[1]['id'] ?? '');
     <div class="col-lg-4 d-grid gap-3 align-content-start">
         <div class="card">
             <div class="card-body">
-                <h2 class="h3">Thêm ví</h2>
+                <h2 class="h3 mb-1">Thêm ví tiền</h2>
+                <p class="text-muted small mb-3">Tạo tài khoản ngân hàng, ví điện tử hoặc tiền mặt để theo dõi số dư riêng.</p>
                 <form method="post" action="<?= url('vi') ?>" novalidate>
                     <?= csrf_field() ?>
                     <div class="mb-3">
                         <label class="form-label" for="wName">Tên ví</label>
-                        <input class="form-control<?= $addInvalid('name') ?>" id="wName" name="name" value="<?= $addOld('name') ?>" maxlength="100" placeholder="VD: Vietcombank" required>
+                        <input class="form-control<?= $addInvalid('name') ?>" id="wName" name="name" value="<?= $addOld('name') ?>" maxlength="100" placeholder="VD: Vietcombank, MoMo" required>
                         <?= $addErr('name') ?>
                     </div>
                     <div class="mb-3">
@@ -151,14 +163,14 @@ $defaultTo = (string)($wallets[1]['id'] ?? '');
                         <input class="form-control<?= $addInvalid('initial_balance') ?>" id="wInitial" name="initial_balance" value="<?= $addOld('initial_balance') ?>" inputmode="numeric" placeholder="0">
                         <?= $addErr('initial_balance') ?>
                     </div>
-                    <button class="btn btn-primary w-100" type="submit">Thêm ví</button>
+                    <button class="btn btn-primary w-100 py-2" type="submit">Thêm ví</button>
                 </form>
             </div>
         </div>
 
         <div class="card">
             <div class="card-body">
-                <h2 class="h3">Chuyển tiền giữa hai ví</h2>
+                <h2 class="h3 mb-1">Chuyển tiền giữa hai ví</h2>
                 <?php if (count($wallets) < 2): ?>
                     <p class="text-muted mb-0">Bạn cần có ít nhất hai ví để chuyển tiền. Hãy thêm ví thứ hai ở trên.</p>
                 <?php else: ?>

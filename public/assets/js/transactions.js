@@ -7,12 +7,26 @@
     const modalEl = document.getElementById('txModal');
     if (!modalEl) return;
 
+    // Đưa modal ra trực tiếp dưới document.body để thoát khỏi stacking context của .app-content
+    if (modalEl.parentElement && modalEl.parentElement !== document.body) {
+        document.body.appendChild(modalEl);
+    }
+
     const modal = new bootstrap.Modal(modalEl);
     const form = document.getElementById('txForm');
     const title = document.getElementById('txModalTitle');
     const submit = document.getElementById('txSubmit');
     const formError = document.getElementById('txFormError');
     const category = document.getElementById('txCategory');
+
+    // Tự động focus ô nhập tiền khi modal hiển thị xong
+    modalEl.addEventListener('shown.bs.modal', () => {
+        const amountInput = document.getElementById('txAmount');
+        if (amountInput) {
+            amountInput.focus();
+            amountInput.select();
+        }
+    });
 
     /** Chỉ hiện danh mục đúng loại đang chọn (Chi hoặc Thu) */
     function filterCategories() {
@@ -53,6 +67,7 @@
         document.getElementById('txDate').value = todayISO();
         document.getElementById('txDate').max = todayISO();
         title.textContent = 'Thêm giao dịch';
+        submit.textContent = 'Lưu';
         filterCategories();
         modal.show();
     }
@@ -72,6 +87,7 @@
             document.getElementById('txDate').max = todayISO();
             document.getElementById('txNote').value = data.note || '';
             title.textContent = 'Sửa giao dịch';
+            submit.textContent = 'Cập nhật';
             modal.show();
         } catch (error) {
             toast(error.message, 'danger');

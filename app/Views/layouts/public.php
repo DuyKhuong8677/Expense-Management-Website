@@ -13,14 +13,28 @@ $loggedIn = Auth::check();
 </head>
 <body class="d-flex flex-column min-vh-100">
 <header class="public-header">
-    <nav class="container d-flex align-items-center gap-3 py-3" aria-label="Menu">
-        <a class="brand me-auto" href="<?= url($loggedIn ? 'tong-quan' : '') ?>"><i class="ph ph-wallet" aria-hidden="true"></i> Quản lý chi tiêu</a>
-        <a class="d-none d-sm-inline text-decoration-none" href="<?= url('huong-dan') ?>">Hướng dẫn</a>
+    <nav class="container d-flex align-items-center gap-2 gap-sm-3 py-3" aria-label="Menu">
+        <a class="brand me-auto" href="<?= url($loggedIn ? 'tong-quan' : '') ?>">
+            <i class="ph ph-wallet" aria-hidden="true"></i>
+            <span>Quản lý chi tiêu</span>
+        </a>
+        <a class="d-none d-md-inline text-muted me-2" href="<?= url('huong-dan') ?>">Hướng dẫn</a>
+
+        <!-- Lucian UX/UI Prompt #021 · MIT License (c) 2026 Seokwoooo · https://lucianlabs.dev/uxui-prompt/#021 -->
+        <!-- Công tắc bầu trời Ngày / Đêm Compact (Lucian UX/UI Prompt #021) -->
+        <button class="u021-header-sw theme-toggle-btn me-1" id="themeToggleBtn" type="button" role="switch" aria-checked="false" aria-label="Chuyển chế độ Ngày / Đêm" title="Đổi giao diện Ngày / Đêm (Lucian #021)">
+            <span class="u021-h-stars" aria-hidden="true"><i></i><i></i><i></i></span>
+            <span class="u021-h-clouds" aria-hidden="true"><i></i><i></i></span>
+            <span class="u021-h-knob" aria-hidden="true">
+                <span class="u021-h-moon"><i></i><i></i></span>
+            </span>
+        </button>
+
         <?php if ($loggedIn): ?>
-            <a class="btn btn-primary" href="<?= url('tong-quan') ?>">Vào trang tổng quan</a>
+            <a class="btn btn-primary" href="<?= url('tong-quan') ?>"><i class="ph ph-squares-four" aria-hidden="true"></i> <span>Vào trang tổng quan</span></a>
         <?php else: ?>
-            <a class="btn btn-outline-primary" href="<?= url('dang-nhap') ?>">Đăng nhập</a>
-            <a class="btn btn-primary" href="<?= url('dang-ky') ?>">Đăng ký</a>
+            <a class="btn btn-outline-primary btn-sm btn-sm-md" href="<?= url('dang-nhap') ?>">Đăng nhập</a>
+            <a class="btn btn-primary btn-sm btn-sm-md" href="<?= url('dang-ky') ?>">Đăng ký</a>
         <?php endif; ?>
     </nav>
 </header>
@@ -32,13 +46,14 @@ $loggedIn = Auth::check();
     <?= $content ?>
 </main>
 
-<footer class="public-footer">
-    <div class="container d-flex flex-wrap gap-3 justify-content-between">
-        <span>© <?= date('Y') ?> Nhóm 4 – Lập trình website, UTH</span>
-        <span class="d-flex gap-3">
-            <a href="<?= url('huong-dan') ?>">Hướng dẫn</a>
-            <a href="<?= url('lien-he') ?>">Liên hệ, góp ý</a>
-        </span>
+<footer class="public-footer mt-auto">
+    <div class="container d-flex flex-column flex-sm-row gap-3 justify-content-between align-items-center text-center text-sm-start">
+        <span>© <?= date('Y') ?> Quản lý chi tiêu · UTH</span>
+        <div class="d-flex gap-3">
+            <a href="<?= url('huong-dan') ?>" class="text-muted">Hướng dẫn</a>
+            <span class="text-muted opacity-50">·</span>
+            <a href="<?= url('lien-he') ?>" class="text-muted">Liên hệ, góp ý</a>
+        </div>
     </div>
 </footer>
 

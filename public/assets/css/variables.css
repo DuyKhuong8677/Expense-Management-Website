@@ -1,53 +1,177 @@
 /*
- * Biến thiết kế dùng chung cho cả nhóm (tài liệu Quy tắc thiết kế, mục E.2).
- * KHÔNG tự đặt màu, cỡ chữ, bo góc, khoảng cách riêng — luôn dùng var(--...).
- * Cần thêm biến mới thì báo TV6 để thêm vào đây.
+ * Biến thiết kế dùng chung — Hệ thống Bento Dashboard Hiện đại
+ * Hỗ trợ Dual Theme: Clean Light Mode & Layered Slate Dark Mode
  */
+
 :root {
-    /* Typography: một font Inter (TY-02), thang 16–20–24–32–48 (TY-04) */
-    --font: "Inter", "Roboto", Arial, sans-serif;
+    /* Typography: Inter thang 12–14–16–20–24–32–44/48 */
+    --font: "Inter", "Roboto", -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+    --fs-xs: 12px;
+    --fs-sm: 14px;
     --fs-body: 16px;
     --fs-h3: 20px;
     --fs-h2: 24px;
     --fs-h1: 32px;
-    --fs-display: 48px;
+    --fs-display: 44px;
 
-    /* Colors: xanh lá đậm + xám (CL-01, CL-03), đã kiểm tra tương phản ≥ 4.5:1 (CL-11) */
-    --c-primary: #2F6F5E;
-    --c-primary-hover: #275D4F;
-    --c-primary-tint: #E8F3EF;
-    --c-primary-shade: #1F3D36;
-    --c-text: #1F2A27;          /* không dùng đen tuyền (CL-10) */
-    --c-text-muted: #5F676A;
-    --c-bg: #F1F3F4;
-    --c-surface: #FFFFFF;
-    --c-line: #DDE2E1;
-    --c-income: #2F6F5E;        /* thu: xanh + dấu "+" */
-    --c-expense: #C2363B;       /* chi: đỏ + dấu "−" (chữ thường) */
-    --c-expense-chart: #E5484D; /* đỏ sáng: chỉ cho biểu đồ và chữ ≥ 18px */
-    --c-expense-tint: #FDECEC;
-    --c-warning: #8A5A00;
-    --c-warning-tint: #FFF4D6;
-    --c-link: #1D5FA8;
+    /* Line heights & letter spacing */
+    --lh-tight: 1.25;
+    --lh-normal: 1.5;
+    --lh-relaxed: 1.6;
+    --ls-heading: -0.025em;
+    --ls-subheading: -0.015em;
+    --ls-label: 0.05em;
 
-    /* Radius, shadow */
-    --r-md: 8px;
-    --r-lg: 12px;
-    --sh-sm: 0 2px 4px rgba(31, 61, 54, .10);
-    --sh-md: 0 6px 12px rgba(31, 61, 54, .12);
-    --sh-lg: 0 24px 48px rgba(31, 61, 54, .20);
-    --sh-focus: 0 0 0 3px rgba(47, 111, 94, .25);
+    /* Radius chuẩn Bento: góc bo mềm mại, hiện đại */
+    --r-sm: 6px;
+    --r-md: 10px;
+    --r-lg: 14px;
+    --r-xl: 18px;
+    --r-full: 9999px;
 
-    /* Spacing: bội số của 16px (trừ nhãn–ô nhập 8px) */
+    /* Spacing chuẩn 8pt grid */
     --sp-half: 8px;
     --sp-1: 16px;
+    --sp-1-5: 24px;
     --sp-2: 32px;
     --sp-3: 48px;
     --sp-4: 64px;
     --sp-6: 96px;
 
-    /* Layout */
-    --sidebar-w: 248px;
-    --header-h: 64px;
-    --bottom-nav-h: 64px;
+    /* Layout dimensions */
+    --sidebar-w: 264px;
+    --sidebar-w-collapsed: 78px;
+    --sidebar-offset: 16px;
+    --header-h: 68px;
+    --bottom-nav-h: 92px;
+
+    /* Transitions */
+    --transition-fast: 0.15s cubic-bezier(0.16, 1, 0.3, 1);
+    --transition-normal: 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+    --transition-theme: background-color 0.25s ease, border-color 0.25s ease, color 0.25s ease, box-shadow 0.25s ease;
+
+    /* =========================================================
+       LIGHT MODE (Clean Modern Fintech)
+       Nền cool-neutral dịu mắt, thẻ trắng sắc nét, viền hairline,
+       chữ slate tương phản cao và điểm nhấn ngọc lục bảo tinh tế.
+       ========================================================= */
+    --c-primary: #0F766E;          /* Deep Emerald / Teal */
+    --c-primary-hover: #0D6861;
+    --c-primary-active: #0B534E;
+    --c-primary-text: #FFFFFF;
+    --c-primary-tint: #E6F4F1;
+    --c-primary-tint-hover: #D0EBE5;
+    --c-primary-shade: #042F2E;
+
+    --c-gold: #B48418;
+    --c-gold-hover: #976F14;
+    --c-gold-tint: #FEF9EB;
+    --c-gold-border: rgba(180, 132, 24, 0.25);
+
+    --c-text: #0F172A;             /* Dark Slate (High contrast ≥ 16:1) */
+    --c-text-muted: #64748B;       /* Cool Slate Muted */
+    --c-text-subtle: #94A3B8;
+
+    --c-bg: #F6F8FA;               /* Soft Cool-Neutral Canvas */
+    --c-surface: #FFFFFF;          /* Crisp White Bento Cards */
+    --c-surface-hover: #F1F4F7;
+    --c-surface-elevated: #FFFFFF;
+
+    --c-line: #E2E8F0;             /* Subtle Hairline Border */
+    --c-line-light: #F1F5F9;
+
+    --c-income: #059669;           /* Clean Emerald Green */
+    --c-income-tint: #ECFDF5;
+    --c-expense: #E11D48;          /* Refined Coral Rose */
+    --c-expense-hover: #BE123C;
+    --c-expense-chart: #F43F5E;
+    --c-expense-tint: #FFF1F2;
+    --c-warning: #D97706;          /* Amber */
+    --c-warning-tint: #FEF3C7;
+    --c-link: #0F766E;
+
+    --c-sidebar-bg: rgba(255, 255, 255, 0.82);
+    --c-sidebar-border: rgba(255, 255, 255, 0.88);
+    --c-sidebar-border-subtle: rgba(15, 23, 42, 0.08);
+    --c-sidebar-text: #475569;
+    --c-sidebar-text-muted: #64748B;
+    --c-sidebar-active-bg: rgba(15, 118, 110, 0.12);
+    --c-sidebar-active-text: #0F766E;
+    --c-sidebar-active-border: rgba(15, 118, 110, 0.32);
+    --c-sidebar-active-glow: 0 4px 16px rgba(15, 118, 110, 0.14);
+    --c-sidebar-shadow: 0 16px 36px -8px rgba(15, 23, 42, 0.08), 0 0 0 1px rgba(15, 23, 42, 0.05);
+
+    --sh-xs: 0 1px 2px rgba(15, 23, 42, 0.04);
+    --sh-sm: 0 1px 3px rgba(15, 23, 42, 0.05), 0 1px 2px rgba(15, 23, 42, 0.03);
+    --sh-md: 0 4px 12px -2px rgba(15, 23, 42, 0.06), 0 2px 6px -1px rgba(15, 23, 42, 0.03);
+    --sh-lg: 0 12px 28px -4px rgba(15, 23, 42, 0.08), 0 4px 10px -2px rgba(15, 23, 42, 0.03);
+    --sh-focus: 0 0 0 3px rgba(15, 118, 110, 0.2);
+    --sh-glow: 0 0 16px rgba(15, 118, 110, 0.12);
+}
+
+@media (min-width: 768px) {
+    :root {
+        --fs-display: 48px;
+    }
+}
+
+/* =========================================================
+   DARK MODE (Modern Layered Bento Slate)
+   Nền than đá phân tầng dịu mắt, bề mặt card đa lớp nổi bật,
+   viền mờ tinh tế, sắc xanh ngọc / champagne tiết chế sang trọng.
+   ========================================================= */
+[data-bs-theme="dark"],
+[data-theme="dark"] {
+    --c-primary: #14B8A6;          /* Modern Radiant Teal */
+    --c-primary-hover: #2DD4BF;
+    --c-primary-active: #0D9488;
+    --c-primary-text: #0F172A;     /* Chữ tối rõ nét trên nền nút xanh ngọc */
+    --c-primary-tint: rgba(20, 184, 166, 0.14);
+    --c-primary-tint-hover: rgba(20, 184, 166, 0.22);
+    --c-primary-shade: #042F2E;
+
+    --c-gold: #DFC27D;
+    --c-gold-hover: #E8CF94;
+    --c-gold-tint: rgba(223, 194, 125, 0.14);
+    --c-gold-border: rgba(223, 194, 125, 0.25);
+
+    --c-text: #F1F5F9;             /* Cool Off-White (Contrast ≥ 14:1) */
+    --c-text-muted: #94A3B8;       /* Silver Slate Muted */
+    --c-text-subtle: #64748B;
+
+    --c-bg: #0F1115;               /* Base Layered Charcoal */
+    --c-surface: #161920;          /* Elevated Bento Cards */
+    --c-surface-hover: #1D212A;    /* Card Hover / Actions */
+    --c-surface-elevated: #1E232D; /* Modals / Dropdowns */
+
+    --c-line: rgba(255, 255, 255, 0.08); /* Translucent Hairline */
+    --c-line-light: rgba(255, 255, 255, 0.04);
+
+    --c-income: #34D399;           /* Soft Radiant Emerald */
+    --c-income-tint: rgba(52, 211, 153, 0.14);
+    --c-expense: #FB7185;          /* Soft Rose Coral */
+    --c-expense-hover: #F43F5E;
+    --c-expense-chart: #FB7185;
+    --c-expense-tint: rgba(251, 113, 133, 0.14);
+    --c-warning: #FBBF24;          /* Soft Amber */
+    --c-warning-tint: rgba(251, 191, 36, 0.14);
+    --c-link: #2DD4BF;
+
+    --c-sidebar-bg: rgba(17, 20, 26, 0.78);
+    --c-sidebar-border: rgba(255, 255, 255, 0.12);
+    --c-sidebar-border-subtle: rgba(255, 255, 255, 0.06);
+    --c-sidebar-text: #94A3B8;
+    --c-sidebar-text-muted: #64748B;
+    --c-sidebar-active-bg: rgba(20, 184, 166, 0.16);
+    --c-sidebar-active-text: #2DD4BF;
+    --c-sidebar-active-border: rgba(20, 184, 166, 0.38);
+    --c-sidebar-active-glow: 0 4px 20px rgba(20, 184, 166, 0.24);
+    --c-sidebar-shadow: 0 20px 48px -10px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(255, 255, 255, 0.08);
+
+    --sh-xs: 0 1px 2px rgba(0, 0, 0, 0.35);
+    --sh-sm: 0 2px 5px rgba(0, 0, 0, 0.45);
+    --sh-md: 0 6px 18px -2px rgba(0, 0, 0, 0.55), 0 2px 6px rgba(0, 0, 0, 0.35);
+    --sh-lg: 0 16px 36px -4px rgba(0, 0, 0, 0.7), 0 4px 12px rgba(0, 0, 0, 0.45);
+    --sh-focus: 0 0 0 3px rgba(20, 184, 166, 0.28);
+    --sh-glow: 0 0 16px rgba(20, 184, 166, 0.18);
 }
