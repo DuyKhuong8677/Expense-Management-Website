@@ -64,6 +64,37 @@ class Budget
         return false;
     }
 
+    /** Số ngân sách của một tháng có thể sao chép (bỏ qua danh mục đã bị ẩn) */
+    public static function copyableCount(int $userId, int $year, int $month): int
+    {
+        return (int)Database::fetch(
+            'SELECT COUNT(*) AS n FROM budgets b
+             JOIN categories c ON c.id = b.category_id
+             WHERE b.user_id = ? AND b.year = ? AND b.month = ? AND c.is_hidden = 0',
+            [$userId, $year, $month]
+        )['n'];
+    }
+
+    /**
+     * Sao chép ngân sách từ tháng này sang tháng khác (FR-20).
+     * Danh mục đã có ngân sách ở tháng đích thì giữ nguyên, không ghi đè. Trả về số ngân sách mới được tạo.
+     */
+    public static function copyFromMonth(int $userId, int $fromYear, int $fromMonth, int $toYear, int $toMonth): int
+    {
+        return Database::query(
+            'INSERT INTO budgets (user_id, category_id, limit_amount, year, month)
+             SELECT b.user_id, b.category_id, b.limit_amount, ?, ?
+             FROM budgets b
+             JOIN categories c ON c.id = b.category_id
+             WHERE b.user_id = ? AND b.year = ? AND b.month = ? AND c.is_hidden = 0
+               AND NOT EXISTS (
+                   SELECT 1 FROM budgets x
+                   WHERE x.user_id = b.user_id AND x.category_id = b.category_id AND x.year = ? AND x.month = ?
+               )',
+            [$toYear, $toMonth, $userId, $fromYear, $fromMonth, $toYear, $toMonth]
+        )->rowCount();
+    }
+
     public static function delete(int $id, int $userId): bool
     {
         return Database::query('DELETE FROM budgets WHERE id = ? AND user_id = ?', [$id, $userId])->rowCount() > 0;

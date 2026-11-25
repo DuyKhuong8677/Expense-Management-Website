@@ -16,6 +16,11 @@ $warnCount = count(array_filter($budgets, fn ($b) => $b['status'] !== 'normal'))
     <?php if ($month !== date('Y-m')): ?>
         <a class="btn btn-sm btn-outline-primary ms-auto ms-sm-2" href="<?= url('ngan-sach') ?>">Về tháng này</a>
     <?php endif; ?>
+    <form class="ms-auto" method="post" action="<?= url('ngan-sach/sao-chep') ?>">
+        <?= csrf_field() ?>
+        <input type="hidden" name="thang" value="<?= e($month) ?>">
+        <button class="btn btn-outline-primary" type="submit"><i class="ph ph-copy" aria-hidden="true"></i> Sao chép từ tháng <?= e(date('m/Y', strtotime($prev . '-01'))) ?></button>
+    </form>
 </div>
 
 <div class="row g-3">
