@@ -12,8 +12,7 @@ use App\Models\Category;
  *   GET  /ngan-sach?thang=2026-11     danh sách ngân sách của tháng + thanh tiến độ (FR-19)
  *   POST /ngan-sach                   đặt hạn mức cho một danh mục (FR-18); đã có thì cập nhật
  *   POST /ngan-sach/{id}/xoa          xóa ngân sách
- *
- * Còn lại cho TV4: FR-20 sao chép ngân sách tháng trước sang tháng mới.
+ *   POST /ngan-sach/sao-chep          sao chép ngân sách của tháng trước sang tháng đang xem (FR-20)
  */
 class BudgetController extends Controller
 {
@@ -79,6 +78,31 @@ class BudgetController extends Controller
         flash(...(Budget::delete($id, (int)$user['id'])
             ? ['success', 'Đã xóa ngân sách.']
             : ['danger', 'Không tìm thấy ngân sách để xóa.']));
+        redirect('ngan-sach?thang=' . $month);
+    }
+
+    /** Sao chép ngân sách tháng trước sang tháng đang xem; danh mục đã có ngân sách tháng này thì giữ nguyên */
+    public function copyPrevious(): void
+    {
+        $user = $this->requireLogin();
+        $userId = (int)$user['id'];
+        $month = self::monthParam($_POST['thang'] ?? '');
+        $prev = date('Y-m', strtotime($month . '-01 -1 month'));
+        [$year, $m] = array_map('intval', explode('-', $month));
+        [$prevYear, $prevMonth] = array_map('intval', explode('-', $prev));
+        $prevLabel = date('m/Y', strtotime($prev . '-01'));
+
+        if (Budget::copyableCount($userId, $prevYear, $prevMonth) === 0) {
+            flash('warning', 'Tháng ' . $prevLabel . ' chưa có ngân sách để sao chép.');
+        } else {
+            $copied = Budget::copyFromMonth($userId, $prevYear, $prevMonth, $year, $m);
+            flash(
+                $copied > 0 ? 'success' : 'info',
+                $copied > 0
+                    ? 'Đã sao chép ' . $copied . ' ngân sách từ tháng ' . $prevLabel . '. Danh mục đã có ngân sách tháng này được giữ nguyên.'
+                    : 'Tháng này đã có ngân sách cho mọi danh mục của tháng ' . $prevLabel . ', không có gì để sao chép.'
+            );
+        }
         redirect('ngan-sach?thang=' . $month);
     }
 
